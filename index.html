@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safari das Descobertas - Aprenda Brincando!</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Cabeçalho -->
+  <header class="header">
+    <div class="logo">
+      <span class="mascot-bounce">🦁</span>
+      <div>
+        <h1>Safari Kids</h1>
+        <small class="subtitle-header">Aprenda Brincando!</small>
+      </div>
+    </div>
+    <div class="score-board">
+      <span class="star-icon">⭐</span>
+      <span id="score-display">0</span> <small>pts</small>
+    </div>
+  </header>
+
+  <!-- Animais Animados Decorativos -->
+  <div class="safari-decor">
+    <div class="animal-box" onclick="speakAnimal('Leão')">
+      <span class="animal leao">🦁</span>
+      <small>Leão</small>
+    </div>
+    <div class="animal-box" onclick="speakAnimal('Girafa')">
+      <span class="animal girafa">🦒</span>
+      <small>Girafa</small>
+    </div>
+    <div class="animal-box" onclick="speakAnimal('Elefante')">
+      <span class="animal elefante">🐘</span>
+      <small>Elefante</small>
+    </div>
+    <div class="animal-box" onclick="speakAnimal('Macaco')">
+      <span class="animal macaco">🐒</span>
+      <small>Macaco</small>
+    </div>
+  </div>
+
+  <!-- Navegação por Abas -->
+  <nav class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('jogos', this)">🎮 Jogos</button>
+    <button class="tab-btn" onclick="switchTab('pintar', this)">🎨 Desenhar</button>
+    <button class="tab-btn" onclick="switchTab('tarefas', this)">📋 Tarefas</button>
+    <button class="tab-btn" onclick="switchTab('premios', this)">🏆 Selos</button>
+  </nav>
+
+  <!-- Conteúdo Principal -->
+  <main class="container">
+
+    <!-- ABA 1: JOGOS -->
+    <section id="tab-jogos" class="tab-content active">
+      <h2 class="section-title">Aventuras Divertidas</h2>
+
+      <!-- Jogo 1: Memória -->
+      <div class="card-game">
+        <div class="game-header">
+          <h3>🧩 Jogo da Memória Safari</h3>
+          <span class="badge">+10 pts por par</span>
+        </div>
+        <p>Ache os pares dos bichinhos!</p>
+        <div class="memory-grid" id="memory-board"></div>
+        <button class="btn-primary" onclick="initMemoryGame()">🔄 Reiniciar Jogo</button>
+      </div>
+
+      <!-- Jogo 2: Quiz -->
+      <div class="card-game">
+        <div class="game-header">
+          <h3>❓ Quiz dos Animais</h3>
+          <span class="badge">+20 pts por acerto</span>
+        </div>
+        <div id="quiz-container">
+          <p id="quiz-question" class="quiz-q"></p>
+          <div id="quiz-options" class="quiz-options"></div>
+        </div>
+      </div>
+
+      <!-- Jogo 3: Qual é o Som/Bicho? -->
+      <div class="card-game">
+        <div class="game-header">
+          <h3>🔊 Quem Faz Esse Som?</h3>
+          <span class="badge">+15 pts</span>
+        </div>
+        <p>Escute a dica e adivinhe qual é o animal do Safari!</p>
+        <div class="sound-game-box">
+          <button class="btn-sound" onclick="playSoundHint()">📢 Ouvir a Dica</button>
+          <div id="sound-options" class="sound-options-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 2: DESENHAR E PINTAR -->
+    <section id="tab-pintar" class="tab-content">
+      <h2 class="section-title">Estúdio de Arte Safari 🎨</h2>
+      <p class="text-center">Solte a imaginação e faça um desenho lindo!</p>
+
+      <div class="canvas-container">
+        <div class="color-picker-bar">
+          <button class="color-dot active" style="background:#4a3f35;" onclick="setCanvasColor('#4a3f35', this)"></button>
+          <button class="color-dot" style="background:#ffb3ba;" onclick="setCanvasColor('#ffb3ba', this)"></button>
+          <button class="color-dot" style="background:#bae1ff;" onclick="setCanvasColor('#bae1ff', this)"></button>
+          <button class="color-dot" style="background:#baffc9;" onclick="setCanvasColor('#baffc9', this)"></button>
+          <button class="color-dot" style="background:#ffdfba;" onclick="setCanvasColor('#ffdfba', this)"></button>
+          <button class="color-dot" style="background:#ffffba;" onclick="setCanvasColor('#ffffba', this)"></button>
+          <button class="btn-secondary" onclick="clearCanvas()">🗑️ Limpar</button>
+        </div>
+        <canvas id="paint-canvas" width="340" height="280"></canvas>
+      </div>
+    </section>
+
+    <!-- ABA 3: TAREFAS DIÁRIAS -->
+    <section id="tab-tarefas" class="tab-content">
+      <h2 class="section-title">Missões do Explorador 🎒</h2>
+      
+      <div class="progress-box">
+        <p>Progresso das Missões:</p>
+        <div class="progress-bar-bg">
+          <div id="task-progress-fill" class="progress-bar-fill">0%</div>
+        </div>
+      </div>
+
+      <ul class="task-list" id="task-list"></ul>
+    </section>
+
+    <!-- ABA 4: PRÊMIOS E SELOS -->
+    <section id="tab-premios" class="tab-content">
+      <h2 class="section-title">Álbum de Selos 🏆</h2>
+      <p class="text-center">Ganhe pontos para desbloquear todas as medalhas safari!</p>
+
+      <div class="badges-grid" id="badges-grid"></div>
+    </section>
+
+  </main>
+
+  <!-- Modal de Parabéns -->
+  <div id="congrats-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-animal">🦁🎉</div>
+      <h2>MUITO BEM!</h2>
+      <p id="modal-message">Você completou uma missão incrível!</p>
+      <div class="reward-stars">⭐⭐⭐</div>
+      <button class="btn-primary" onclick="closeModal()">Continuar Explorando!</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
